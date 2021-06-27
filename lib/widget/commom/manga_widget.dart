@@ -29,6 +29,7 @@ class MangaWidget extends StatelessWidget {
                 )),
             Text(
               manga.title,
+              overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
             )
           ],

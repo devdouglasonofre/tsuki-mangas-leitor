@@ -1,3 +1,4 @@
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 import 'package:tsuki/widget/commom/chapter_list_widget.dart';
 
@@ -63,12 +64,14 @@ class MangaDetailsScreen extends StatelessWidget {
                             ), //BorderRa
                           )),
                       Container(
+                        width: 180,
                         margin: EdgeInsets.all(24),
-                        child: Text(
+                        child: AutoSizeText(
                           manga.title,
                           style: TextStyle(
                             fontSize: 24,
                           ),
+                          maxLines: 2,
                         ),
                       ),
                     ],
@@ -102,7 +105,8 @@ class MangaDetailsScreen extends StatelessWidget {
                     manga.synopsis,
                     textAlign: TextAlign.justify,
                   )),
-              SizedBox(height: 500, child: ChapterListWidget(mangaID: manga.id))
+              ChapterListWidget(
+                  mangaID: manga.id, chaptersCount: manga.chaptersCount)
             ],
           ),
         ),

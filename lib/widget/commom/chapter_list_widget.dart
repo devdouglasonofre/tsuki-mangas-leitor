@@ -1,66 +1,123 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
+import 'package:tsuki/cubit/chapter_cubit.dart';
 import 'package:tsuki/widget/screens/page_viewer_screen.dart';
 
 class ChapterListWidget extends StatefulWidget {
   final int mangaID;
+  final int chaptersCount;
 
-  const ChapterListWidget({Key? key, required this.mangaID}) : super(key: key);
+  const ChapterListWidget(
+      {Key? key, required this.mangaID, required this.chaptersCount})
+      : super(key: key);
 
   @override
   _ChapterListWidgetState createState() => _ChapterListWidgetState();
 }
 
 class _ChapterListWidgetState extends State<ChapterListWidget> {
-  List<Map<dynamic, dynamic>> chapterList = [];
-  int page = 1;
+  bool loading = false;
+  ScrollController _scrollController = new ScrollController();
+  bool isCresc = true;
 
   @override
   void initState() {
-    loadChapters();
     super.initState();
-  }
-
-  void loadChapters() async {
-    String result = await http.read(Uri.parse(
-        "https://tsukimangas.com/api/v2/chapters?manga_id=${widget.mangaID}&order=desc&page=${page}"));
-    Map resultJSON = json.decode(result);
-    List<Map> chapterListRaw = [];
-    for (Map chapter in resultJSON['data']) {
-      chapterListRaw.add({
-        "id": chapter["versions"][0]['id'],
-        "number": chapter['number'],
-        "uploadDate": chapter["versions"][0]['created_at']
-      });
-    }
-    setState(() {
-      chapterList = chapterListRaw;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: chapterList.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              "Capítulo " + chapterList[index]['number'],
-              style: TextStyle(color: Colors.white),
+    return BlocProvider(
+      create: (context) =>
+          ChapterCubit()..loadChapters(widget.mangaID, [], true),
+      child:
+          BlocConsumer<ChapterCubit, ChapterState>(listener: (context, state) {
+        if (state is ChapterListLoaded) {
+          loading = false;
+        }
+      }, builder: (context, state) {
+        return Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                    margin: EdgeInsets.all(12),
+                    child: Text(
+                      "Capítulos",
+                      style: TextStyle(fontSize: 24),
+                    )),
+                Container(
+                  margin: EdgeInsets.all(12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text("Cresc."),
+                      Switch(
+                        value: isCresc,
+                        onChanged: (newValue) {
+                          setState(() {
+                            isCresc = newValue;
+                            context
+                                .read<ChapterCubit>()
+                                .loadChapters(widget.mangaID, [], isCresc);
+                          });
+                        },
+                      ),
+                      Text("Decresc.")
+                    ],
+                  ),
+                ),
+              ],
             ),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeftWithFade,
-                      child: PageViewerScreen(
-                          chapterID: chapterList[index]['id'])));
-            },
-          );
-        });
+            state is ChapterListLoaded
+                ? NotificationListener(
+                    child: Container(
+                      height: 500,
+                      child: ListView.builder(
+                        padding: EdgeInsets.only(top: 0.0),
+                        itemCount: state.chaptersList.length,
+                        controller: _scrollController,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(
+                              "Capítulo " + state.chaptersList[index]['number'],
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType
+                                          .rightToLeftWithFade,
+                                      child: PageViewerScreen(
+                                          chapterID: state.chaptersList[index]
+                                              ['id'],
+                                          chapterName: state.chaptersList[index]
+                                              ['number'])));
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    onNotification: (notification) {
+                      if (notification is ScrollNotification &&
+                          notification.metrics.extentAfter < 200 &&
+                          loading == false &&
+                          state.chaptersList.length != widget.chaptersCount) {
+                        loading = true;
+                        context.read<ChapterCubit>().loadChapters(
+                            widget.mangaID, state.chaptersList, isCresc);
+                      }
+                      return true;
+                    },
+                  )
+                : Center(child: CircularProgressIndicator())
+          ],
+        );
+      }),
+    );
   }
 }
