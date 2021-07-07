@@ -24,7 +24,7 @@ class PageCubit extends Cubit<PageState> {
 
     var previousChapter;
     var nextChapter;
-
+    
     String resultListOfChapters = await http.read(
         Uri.parse("https://tsukimangas.com/api/v2/chapters/$mangaID/all"));
     List resultListOfChaptersJSON = json.decode(resultListOfChapters);
