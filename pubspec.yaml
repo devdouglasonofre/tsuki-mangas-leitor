@@ -3,7 +3,7 @@ description: Leitor Não Oficial de Mangás da Tsuski Mangás
 
 publish_to: "none"
 
-version: 1.0.0+1
+version: 0.3.0+1
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -14,7 +14,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.3
   page_transition: ^2.0.2
-  carousel_slider: ^4.0.0
   bloc: ^7.0.0
   flutter_bloc: ^7.0.1
   auto_size_text_pk: ^3.0.0
@@ -22,10 +21,19 @@ dependencies:
   path_provider: ^2.0.2
   anim_search_bar: ^2.0.2
   photo_view: ^0.11.1
+  preload_page_view: ^0.1.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.9.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/icon/icon.png
