@@ -83,7 +83,8 @@ class _ChapterListWidgetState extends State<ChapterListWidget> {
                         itemBuilder: (context, index) {
                           return ListTile(
                             title: Text(
-                              "Capítulo " + state.chaptersList[index]['number'],
+                              "Capítulo " +
+                                  state.chaptersList[index].chapterNumber,
                               style: TextStyle(color: Colors.white),
                             ),
                             onTap: () {
@@ -93,10 +94,12 @@ class _ChapterListWidgetState extends State<ChapterListWidget> {
                                       type: PageTransitionType
                                           .rightToLeftWithFade,
                                       child: PageViewerScreen(
-                                          chapterID: state.chaptersList[index]
-                                              ['id'],
-                                          chapterName: state.chaptersList[index]
-                                              ['number'])));
+                                        chapterID:
+                                            state.chaptersList[index].chapterId,
+                                        chapterNumber: state
+                                            .chaptersList[index].chapterNumber,
+                                        mangaID: widget.mangaID,
+                                      )));
                             },
                           );
                         },

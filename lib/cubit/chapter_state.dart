@@ -8,6 +8,6 @@ class ChapterInitial extends ChapterState {}
 class ChapterListLoading extends ChapterState {}
 
 class ChapterListLoaded extends ChapterState {
-  final List<Map> chaptersList;
+  final List<Chapter> chaptersList;
   ChapterListLoaded({required this.chaptersList});
 }

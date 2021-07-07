@@ -4,7 +4,7 @@ import 'package:tsuki/cubit/manga_cubit.dart';
 import 'package:tsuki/widget/commom/manga_widget.dart';
 
 import 'models/manga.dart';
-import 'widget/commom/search_bar.dart';
+import 'widget/commom/search_bar_widget.dart';
 
 void main() {
   runApp(TsukiReader());
@@ -22,6 +22,7 @@ class TsukiReader extends StatelessWidget {
       child: MaterialApp(
         title: 'Leitor Tsuki Mangás',
         theme: ThemeData(
+          iconTheme: IconThemeData(color: Colors.white),
           primarySwatch: Colors.grey,
           scaffoldBackgroundColor: Colors.black,
           appBarTheme: AppBarTheme(
