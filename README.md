@@ -1,16 +1,25 @@
-# tsuki
+# Leitor de Mangás para o Site Tsuki Mangás
 
-A new Flutter project.
+Um simples leitor de mangás em estágio inicial, feito para afiar minhas habilidades com Flutter.
 
-## Getting Started
+# Fucionalidades:
 
-This project is a starting point for a Flutter application.
+- Pesquisar por alguma obra específica;
+- Ler informações básicas sobre o mangá;
+- Explorar seus capítulos;
+- Ler o mangá em questão;
 
-A few resources to get you started if this is your first Flutter project:
+# Imagens
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+<img src="./docs/1.jpg"  width="200"/><br>
+Página Inicial (com barra de pesquisa) <br>
+<img src="./docs/2.jpeg"  width="200"/><br>
+Página do mangá <br>
+<img src="./docs/3.jpeg"  width="200"/><br>
+Explorador de capítulos <br>
+<img src="./docs/4.jpeg"  width="200"/><br>
+Leitor <br>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Desenvolvimento Cessado
+
+Após descobrir que a Tsuki Mangás tem o seu próprio leitor de mangás sendo desenvolvido por uma equipe interna, resolvi interromper o desenvolvimento, visto que o app deles está bem mais avançado, além de que tudo que eu queria aprender e praticar com o desenvolvimento do app já foi aprendido.
